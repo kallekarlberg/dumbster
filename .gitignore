@@ -1,3 +1,7 @@
 build
 doc
 *~
+.gradle
+.classpath
+.project
+.settings

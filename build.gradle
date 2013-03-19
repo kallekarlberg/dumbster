@@ -1,0 +1,29 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'java'
+
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+    main {
+    	java {
+    			srcDir 'src'
+    	}
+    }
+    test {
+    	java {
+    		srcDir 'test-src'
+    	}
+    }
+}
+
+dependencies {
+  testCompile 'junit:junit:4+',
+  						'javax.mail:mail:1.4.4'
+}
+
+task createWrapper(type: Wrapper) {
+	gradleVersion='1.4'
+}
