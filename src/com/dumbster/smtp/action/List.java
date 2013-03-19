@@ -16,6 +16,7 @@ public class List implements Action {
             if (messageIndex > -1)
                 this.messageIndex = messageIndex;
         } catch (NumberFormatException ignored) {
+            System.err.println("ouch: "+ignored.getMessage());
         }
     }
 
@@ -28,7 +29,7 @@ public class List implements Action {
 
         StringBuffer result = new StringBuffer();
         if (messageIndex != null && messageIndex < mailStore.getEmailCount()) {
-            result.append("\n-------------------------------------------\n");            
+            result.append("\n-------------------------------------------\n");
             result.append(mailStore.getMessage(messageIndex).toString());
         }
         result.append("There are ");

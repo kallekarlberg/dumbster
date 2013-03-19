@@ -15,10 +15,8 @@ public class Mail implements Action {
     public Response response(SmtpState smtpState, MailStore mailStore, MailMessage currentMessage) {
         if (SmtpState.MAIL == smtpState || SmtpState.QUIT == smtpState) {
             return new Response(250, "OK", SmtpState.RCPT);
-        } else {
-            return new Response(503,
-                    "Bad sequence of commands: " + this, smtpState);
         }
+        return new Response(503,
+                "Bad sequence of commands: " + this, smtpState);
     }
-
 }

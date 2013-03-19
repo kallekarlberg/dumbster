@@ -16,18 +16,29 @@
  */
 package com.dumbster.smtp;
 
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import com.dumbster.smtp.SmtpServer;
-
-import static org.junit.Assert.*;
+import java.util.Date;
+import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.mail.*;
-import javax.mail.internet.*;
-import java.util.Properties;
-import java.util.Date;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class SmtpServerTest {
     private static final int SMTP_PORT = 1081;
@@ -243,7 +254,7 @@ public class SmtpServerTest {
         assertEquals("Test Body", email.getBody());
     }
 
-    private Properties getMailProperties(int port) {
+    private static Properties getMailProperties(int port) {
         Properties mailProps = new Properties();
         mailProps.setProperty("mail.smtp.host", "localhost");
         mailProps.setProperty("mail.smtp.port", "" + port);
@@ -251,7 +262,7 @@ public class SmtpServerTest {
         return mailProps;
     }
 
-    private void sendMessage(int port, String from, String subject, String body, String to) {
+    private static void sendMessage(int port, String from, String subject, String body, String to) {
         try {
             Properties mailProps = getMailProperties(port);
             Session session = Session.getInstance(mailProps, null);
@@ -264,7 +275,7 @@ public class SmtpServerTest {
         }
     }
 
-    private MimeMessage createMessage(Session session, String from, String to, String subject, String body) throws MessagingException {
+    private static MimeMessage createMessage(Session session, String from, String to, String subject, String body) throws MessagingException {
         MimeMessage msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(from));
         msg.setSubject(subject);

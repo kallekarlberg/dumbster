@@ -15,10 +15,9 @@ public class Unrecognized implements Action {
     public Response response(SmtpState smtpState, MailStore mailStore, MailMessage currentMessage) {
         if (SmtpState.DATA_HDR == smtpState || SmtpState.DATA_BODY == smtpState) {
             return new Response(-1, "", smtpState);
-        } else {
-            return new Response(500, "Command not recognized",
-                    smtpState);
         }
+        return new Response(500, "Command not recognized",
+                smtpState);
     }
 
 }

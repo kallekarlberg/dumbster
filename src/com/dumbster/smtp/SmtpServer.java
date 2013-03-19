@@ -16,9 +16,9 @@
  */
 package com.dumbster.smtp;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,7 +36,7 @@ public class SmtpServer implements Runnable {
     private volatile boolean threaded = false;
 
     private ServerSocket serverSocket;
-    private int port;
+    private final int port;
 
     SmtpServer(int port) {
         this.port = port;
@@ -81,7 +81,7 @@ public class SmtpServer implements Runnable {
         ready = false;
     }
 
-    private Socket clientSocket() throws IOException {
+    private Socket clientSocket() {
         Socket socket = null;
         while (socket == null) {
             socket = accept();
@@ -107,6 +107,7 @@ public class SmtpServer implements Runnable {
         try {
             serverSocket.close();
         } catch (IOException ignored) {
+            System.err.println("unable to stop server");
         }
     }
 

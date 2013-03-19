@@ -17,10 +17,9 @@ public class Data implements Action {
             return new Response(354,
                     "Start mail input; end with <CRLF>.<CRLF>",
                     SmtpState.DATA_HDR);
-        } else {
-            return new Response(503,
-                    "Bad sequence of commands: " + this, smtpState);
         }
+        return new Response(503,
+                "Bad sequence of commands: " + this, smtpState);
     }
 
 }

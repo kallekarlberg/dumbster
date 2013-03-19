@@ -16,19 +16,19 @@
  */
 package com.dumbster.smtp;
 
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * Container for a complete SMTP message - headers and message body.
  */
 public class MailMessageImpl implements MailMessage {
-    private Map<String, List<String>> headers;
-    private StringBuffer body;
+    private final Map<String, List<String>> headers;
+    private final StringBuffer body;
 
     public MailMessageImpl() {
         headers = new HashMap<String, List<String>>(10);
@@ -44,19 +44,17 @@ public class MailMessageImpl implements MailMessage {
         List<String> values = headers.get(name);
         if (values == null) {
             return new String[0];
-        } else {
-            return values.toArray(new String[values.size()]);
         }
+        return values.toArray(new String[values.size()]);
     }
 
     public String getFirstHeaderValue(String name) {
         List<String> values = headers.get(name);
         if (values == null) {
             return null;
-        } else {
-            Iterator<String> iterator = values.iterator();
-            return iterator.next();
         }
+        Iterator<String> iterator = values.iterator();
+        return iterator.next();
     }
 
     public String getBody() {
@@ -88,9 +86,10 @@ public class MailMessageImpl implements MailMessage {
     }
 
     private boolean shouldPrependNewline(String line)  {
-      return body.length() > 0 && line.length() > 0 && !"\n".equals(line);
+        return body.length() > 0 && line.length() > 0 && !"\n".equals(line);
     }
 
+    @Override
     public String toString() {
         StringBuffer msg = new StringBuffer();
         for (Iterator<String> i = headers.keySet().iterator(); i.hasNext();) {

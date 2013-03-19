@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 
 public class ClientSession implements Runnable {
 
-    private IOSource socket;
+    private final IOSource socket;
     private volatile MailStore mailStore;
     private MailMessage msg;
     private Response smtpResponse;
@@ -30,10 +30,12 @@ public class ClientSession implements Runnable {
             prepareSessionLoop();
             sessionLoop();
         } catch (Exception ignored) {
+            System.err.println("ouch: "+ignored.getMessage());
         } finally {
             try {
                 socket.close();
             } catch (Exception ignored) {
+                System.err.println("ouch: "+ignored.getMessage());
             }
         }
     }
@@ -121,9 +123,9 @@ public class ClientSession implements Runnable {
         }
     }
 
-    private boolean whiteSpacedLineStart(String s)  {
+    private static boolean whiteSpacedLineStart(String s)  {
         if (s == null || "".equals(s))
-          return false;
+            return false;
         char c = s.charAt(0);
         return c == 32 || c == 0x0b || c == '\n' ||
                 c == '\r' || c == '\t' || c == '\f';
